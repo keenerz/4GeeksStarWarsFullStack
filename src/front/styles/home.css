@@ -1,7 +1,28 @@
-/*
-    home.css: This website contains selectors only used in home.css
+.headers {
+  color: rgb(206, 64, 64);
+}
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+.detailline {
+  border-top: 2px solid rgb(206, 64, 64);
+}
+
+.facts {
+  color: rgb(206, 64, 64);
+}
+
+.description {
+  font-size: 30px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0px;
+  margin-left: 0px;
+}
+.list-items {
+  color: blue;
+}
+.favoriteDelete {
+  color: black;
+  float: right;
+}
