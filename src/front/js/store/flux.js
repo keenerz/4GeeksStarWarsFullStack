@@ -59,7 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       loadCharacters: async () => {
         const response = await fetch(
-          "https://3001-sapphire-albatross-airu9ipd75c.ws-us30.gitpod.io/api/character"
+          process.env.BACKEND_URL + `/api/character`
         );
         if (response.status === 200) {
           const payload = await response.json();
@@ -73,9 +73,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       loadPlanets: async () => {
-        const response = await fetch(
-          "https://3001-sapphire-albatross-airu9ipd75c.ws-us30.gitpod.io/api/planet"
-        );
+        const response = await fetch(process.env.BACKEND_URL + `/api/planet`);
         if (response.status === 200) {
           const payload = await response.json();
           const myNewPlanets = payload.map((planets, i) => {
@@ -88,9 +86,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       loadFavorites: async () => {
-        const response = await fetch(
-          "https://3001-sapphire-albatross-airu9ipd75c.ws-us30.gitpod.io/api/favorite"
-        );
+        const response = await fetch(process.env.BACKEND_URL + `/api/favorite`);
         if (response.status === 200) {
           const payload = await response.json();
           setStore({ favorites: payload });

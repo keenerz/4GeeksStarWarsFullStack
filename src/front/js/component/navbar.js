@@ -16,6 +16,9 @@ export const Navbar = (props) => {
           ></img>
         </span>
       </Link>
+      <Link to="/login">
+        <button>Log me in!</button>
+      </Link>
       <div className="dropdown">
         <button
           className="btn btn-primary dropdown-toggle me-5"

@@ -5,6 +5,7 @@ import ScrollToTop from "/workspace/react-flask-hello/src/front/js/component/scr
 import { Home } from "/workspace/react-flask-hello/src/front/js/pages/home.js";
 import { PlanetDetails } from "/workspace/react-flask-hello/src/front/js/pages/PlanetDetails.js";
 import { CharacterDetails } from "/workspace/react-flask-hello/src/front/js/pages/CharacterDetails.js";
+import { Login } from "/workspace/react-flask-hello/src/front/js/pages/login.js";
 import injectContext from "/workspace/react-flask-hello/src/front/js/store/appContext.js";
 
 import { Navbar } from "/workspace/react-flask-hello/src/front/js/component/navbar.js";
@@ -32,6 +33,9 @@ const Layout = () => {
             </Route>
             <Route exact path="/planet/:theuid">
               <PlanetDetails />
+            </Route>
+            <Route exact path="/login">
+              <Login />
             </Route>
             <Route>
               <h1>Not found!</h1>
