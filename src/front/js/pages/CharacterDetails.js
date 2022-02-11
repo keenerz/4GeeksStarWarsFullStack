@@ -12,7 +12,7 @@ export const CharacterDetails = (props) => {
         <div className="col">
           <img
             src={
-              store.images["/character/" + params.theuid] ||
+              store.characters[params.theuid]?.img_url ||
               "https://via.placeholder.com/800x600"
             }
             className="float-start"

@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 # Setup the Flask-JWT-Extended extension
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this "super secret" with something else!
+app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')  # Change this "super secret" with something else!
 jwt = JWTManager(app)
 
 # database condiguration

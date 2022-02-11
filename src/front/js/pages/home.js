@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "/workspace/react-flask-hello/src/front/styles/home.css";
 import { PlanetCards } from "/workspace/react-flask-hello/src/front/js/component/PlanetCards.js";
 import { CharacterCards } from "/workspace/react-flask-hello/src/front/js/component/CharacterCards.js";
@@ -6,6 +6,12 @@ import { Context } from "/workspace/react-flask-hello/src/front/js/store/appCont
 
 export const Home = (props) => {
   const { store, actions } = useContext(Context);
+
+  useEffect(() => {
+    if (store.token && store.token != "" && store.token != undefined)
+      actions.loadFavorites();
+  }, [store.token]);
+
   return (
     <div className="container-fluid p-0 pb-4 m-0">
       <h1 className="mx-0 px-4 pb-2 pt-4 headers">Characters</h1>
@@ -22,7 +28,7 @@ export const Home = (props) => {
             gender={store.characters[i].gender}
             hair_color={store.characters[i].hair_color}
             eye_color={store.characters[i].eye_color}
-            img="https://via.placeholder.com/400x200"
+            img={store.characters[i].img_url}
             details={store.characters[i].details}
             key={i}
           />
@@ -37,6 +43,7 @@ export const Home = (props) => {
           <PlanetCards
             data={c}
             uid={store.planets[i].uid}
+            img={store.planets[i].img_url}
             favStatus={store.planets[i].isFavorite}
             name={store.planets[i].name}
             climate={store.planets[i].climate}

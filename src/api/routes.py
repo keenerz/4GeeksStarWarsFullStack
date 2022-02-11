@@ -8,7 +8,6 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_tok
 
 api = Blueprint('api', __name__)
 
-
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
 
@@ -46,6 +45,16 @@ def get_favorite():
         return jsonify({"msg": "User Not Found"}), 403
     favorite_query = Favorite.query.filter_by(user_id=current_user_id)
     all_serialized_favorite = list(map(lambda item:item.serialize(), favorite_query))
+    return jsonify(all_serialized_favorite)
+
+@api.route('/favorite', methods=['POST'])
+@jwt_required()
+def get_favorite():
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    if user is None:
+        return jsonify({"msg": "User Not Found"}), 403
+    favorite_query = Favorite.query.filter_by(user_id=current_user_id)
     return jsonify(all_serialized_favorite)
 
 @api.route('/token', methods=['POST'])

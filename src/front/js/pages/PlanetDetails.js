@@ -12,7 +12,7 @@ export const PlanetDetails = (props) => {
         <div className="col">
           <img
             src={
-              store.images["/planet/" + params.theuid] ||
+              store.planets[params.theuid]?.img_url ||
               "https://via.placeholder.com/800x600"
             }
             className="float-start"

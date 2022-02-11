@@ -16,9 +16,19 @@ export const Navbar = (props) => {
           ></img>
         </span>
       </Link>
-      <Link to="/login">
-        <button>Log me in!</button>
-      </Link>
+      {!store.token ? (
+        <Link to="/login">
+          <button>Log me in!</button>
+        </Link>
+      ) : (
+        <button
+          onClick={() => {
+            actions.logout();
+          }}
+        >
+          Log me out!
+        </button>
+      )}
       <div className="dropdown">
         <button
           className="btn btn-primary dropdown-toggle me-5"
@@ -43,7 +53,7 @@ export const Navbar = (props) => {
                     className="list-group-item-action dropdown-item list-items"
                     key={i}
                   >
-                    <Link to={type + "/" + fav.id}>{fav.name}</Link>{" "}
+                    <Link to={"/" + type + "/" + (fav.id - 1)}>{fav.name}</Link>{" "}
                     <span
                       className="favoriteDelete"
                       onClick={() => actions.removeFavorites(i)}

@@ -11,10 +11,7 @@ export const PlanetCards = (props) => {
       style={{ minWidth: "18rem", maxWidth: "18rem", minHeight: "22rem" }}
     >
       <img
-        src={
-          store.images[props.details + props.uid] ||
-          "https://via.placeholder.com/400x200"
-        }
+        src={props.img || "https://via.placeholder.com/400x200"}
         className="card-img-top"
         height="200"
         width="400"

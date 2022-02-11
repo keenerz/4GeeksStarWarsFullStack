@@ -4,26 +4,24 @@ const getState = ({ getStore, getActions, setStore }) => {
       favorites: [],
       characters: [],
       planets: [],
-      images: {
-        "/CharacterDetails/0":
-          "https://cdn.vox-cdn.com/thumbor/CbgKIPPzOnjph22XYg7SJK7jxLo=/0x0:2935x1544/920x613/filters:focal(1364x397:1832x865):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/68550262/luke_jabbas_palace.0.jpg",
-        "/CharacterDetails/1":
-          "https://images.immediate.co.uk/production/volatile/sites/3/2019/10/EP9-FF-001686-336e75b.jpg",
-        "/PlanetDetails/0":
-          "https://media.moddb.com/cache/images/mods/1/17/16326/thumb_620x2000/tatoine.png",
-        "/PlanetDetails/1":
-          "https://2w6kxc22rrr9mabqt1mglgait6-wpengine.netdna-ssl.com/wp-content/uploads/2017/11/alderaan-planet-explosion-small.jpg",
-      },
     },
     actions: {
       // Use getActions to call a function within a fuction
-      exampleFunction: () => {
-        getActions().changeColor(0, "green");
+      // exampleFunction: () => {
+      //   getActions().changeColor(0, "green");
+      // },
+      // loadSomeData: () => {
+      //   /*
+      //       fetch().then().then(data => setStore({ "foo": data.bar }))
+      //     */
+      // },
+      syncTokenFromSessionStore: () => {
+        const token = sessionStorage.getItem("token");
       },
-      loadSomeData: () => {
-        /*
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+      logout: () => {
+        sessionStorage.removeItem("token");
+        console.log("logging out");
+        setStore({ token: null });
       },
       addFavorites: (favorite) => {
         const store = getStore();
@@ -40,6 +38,17 @@ const getState = ({ getStore, getActions, setStore }) => {
           favorite.isFavorite = true;
           setStore({ favorites: store.favorites.concat(favorite) });
         }
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+          body: JSON.stringify({
+            planet: favorite.planet,
+            character: favorite.character,
+          }),
+        };
       },
       removeFavorites: (i) => {
         const { favorites } = getStore();
@@ -86,10 +95,50 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
       loadFavorites: async () => {
-        const response = await fetch(process.env.BACKEND_URL + `/api/favorite`);
+        const store = getStore();
+        const options = {
+          headers: {
+            Authorization: "Bearer " + store.token,
+          },
+        };
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/favorite`,
+          options
+        );
         if (response.status === 200) {
           const payload = await response.json();
           setStore({ favorites: payload });
+        }
+      },
+      login: async (email, password) => {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        };
+
+        try {
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/token`,
+            options
+          );
+          if (response.status !== 200) {
+            alert("Error in first");
+            return false;
+          }
+
+          const data = await response.json();
+          console.log("comes from the backend", data);
+          sessionStorage.setItem("token", data.token);
+          setStore({ token: data.token });
+          return true;
+        } catch (error) {
+          console.error("Error in login zone");
         }
       },
     },

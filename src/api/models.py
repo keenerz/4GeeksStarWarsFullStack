@@ -22,7 +22,7 @@ class Planet(db.Model):
     orbital_period = db.Column(db.Integer, nullable=False)
     diameter = db.Column(db.Integer, nullable=False)
     terrain = db.Column(db.String(120), nullable=False)
-    population = db.Column(db.Integer, nullable=False)
+    population = db.Column(db.String(120), nullable=False)
     img_url = db.Column(db.String(120), nullable=False)
 
     def serialize(self):
@@ -49,6 +49,7 @@ class Character(db.Model):
     birth_year = db.Column(db.String(120), nullable=False)
     gender = db.Column(db.String(120), nullable=False)
     img_url = db.Column(db.String(120), nullable=False)
+    skin_color = db.Column(db.String(120), nullable=False)
 
     def serialize(self):
         return {
@@ -60,6 +61,7 @@ class Character(db.Model):
             "birth_year":self.birth_year,
             "gender":self.gender,
             "img_url":self.img_url,
+            "skin_color":self.skin_color
             # do not serialize the password, its a security breach
         }
 
