@@ -6,7 +6,7 @@ export const Navbar = (props) => {
   const { store, actions } = useContext(Context);
 
   return (
-    <nav className="navbar navbar-light bg-light mb-3">
+    <nav className="navbar navbar-light bg-light mb-3 d-">
       <Link to="/">
         <span className="navbar-brand mb-0 ms-3 h1">
           <img
@@ -16,55 +16,62 @@ export const Navbar = (props) => {
           ></img>
         </span>
       </Link>
-      {!store.token ? (
-        <Link to="/login">
-          <button>Log me in!</button>
-        </Link>
-      ) : (
-        <button
-          onClick={() => {
-            actions.logout();
-          }}
-        >
-          Log me out!
-        </button>
-      )}
-      <div className="dropdown">
-        <button
-          className="btn btn-primary dropdown-toggle me-5"
-          id="dropdownMenu2"
-          data-toggle="dropdown"
-          aria-expanded="false"
-          data-bs-toggle="dropdown"
-        >
-          Favorites{" "}
-          <span className="badge bg-secondary">{store.favorites.length}</span>
-        </button>
-        <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-          <ul id="favoritelist">
-            {store.favorites.length === 0 ? (
-              <li className="list-group-item-action dropdown-item">(empty)</li>
-            ) : (
-              store.favorites.map((f, i) => {
-                const fav = f.character ? f.character : f.planet;
-                const type = f.character ? "character" : "planet";
-                return (
-                  <li
-                    className="list-group-item-action dropdown-item list-items"
-                    key={i}
-                  >
-                    <Link to={"/" + type + "/" + (fav.id - 1)}>{fav.name}</Link>{" "}
-                    <span
-                      className="favoriteDelete"
-                      onClick={() => actions.removeFavorites(i)}
+      <div id="logbutton">
+        {!store.token ? (
+          <Link to="/login">
+            <button className="btn btn-primary">Log me in!</button>
+          </Link>
+        ) : (
+          <button
+            className="btn btn-primary log"
+            onClick={() => {
+              actions.logout();
+            }}
+          >
+            Log me out!
+          </button>
+        )}
+        <div className="dropdown float-end ms-2">
+          <button
+            className="btn btn-primary dropdown-toggle me-5"
+            id="dropdownMenu2"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            data-bs-toggle="dropdown"
+          >
+            Favorites{" "}
+            <span className="badge bg-secondary">{store.favorites.length}</span>
+          </button>
+          <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <ul id="favoritelist">
+              {store.favorites.length === 0 ? (
+                <li className="list-group-item-action dropdown-item">
+                  (empty)
+                </li>
+              ) : (
+                store.favorites.map((f, i) => {
+                  const fav = f.character ? f.character : f.planet;
+                  const type = f.character ? "character" : "planet";
+                  return (
+                    <li
+                      className="list-group-item-action dropdown-item list-items"
+                      key={i}
                     >
-                      <i className="fas fa-trash"></i>
-                    </span>
-                  </li>
-                );
-              })
-            )}
-          </ul>
+                      <Link to={"/" + type + "/" + (fav.id - 1)}>
+                        {fav.name}
+                      </Link>{" "}
+                      <span
+                        className="favoriteDelete"
+                        onClick={() => actions.removeFavorites(i)}
+                      >
+                        <i className="fas fa-trash"></i>
+                      </span>
+                    </li>
+                  );
+                })
+              )}
+            </ul>
+          </div>
         </div>
       </div>
     </nav>

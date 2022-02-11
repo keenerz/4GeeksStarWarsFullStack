@@ -49,13 +49,16 @@ def get_favorite():
 
 @api.route('/favorite', methods=['POST'])
 @jwt_required()
-def get_favorite():
+def create_favorite():
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
     if user is None:
         return jsonify({"msg": "User Not Found"}), 403
-    favorite_query = Favorite.query.filter_by(user_id=current_user_id)
-    return jsonify(all_serialized_favorite)
+    body = request.json.get()
+    if body is None:
+        return jsonify({"msg": "Body is empty"}), 400
+    if ("planet" != null) in body:
+        Favorite.create_favorite(user, planet.id)
 
 @api.route('/token', methods=['POST'])
 def create_token():
