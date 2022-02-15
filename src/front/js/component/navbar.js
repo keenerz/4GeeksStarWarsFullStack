@@ -4,6 +4,7 @@ import { Context } from "/workspace/react-flask-hello/src/front/js/store/appCont
 
 export const Navbar = (props) => {
   const { store, actions } = useContext(Context);
+  const session = actions.getCurrentSession();
 
   return (
     <nav className="navbar navbar-light bg-light mb-3 d-">
@@ -17,13 +18,13 @@ export const Navbar = (props) => {
         </span>
       </Link>
       <div id="logbutton">
-        {!store.token ? (
+        {!session ? (
           <Link to="/login">
             <button className="btn btn-primary">Log me in!</button>
           </Link>
         ) : (
           <button
-            className="btn btn-primary log"
+            className="btn btn-danger log"
             onClick={() => {
               actions.logout();
             }}
@@ -62,7 +63,7 @@ export const Navbar = (props) => {
                       </Link>{" "}
                       <span
                         className="favoriteDelete"
-                        onClick={() => actions.removeFavorites(i)}
+                        onClick={() => actions.removeFavorite(i)}
                       >
                         <i className="fas fa-trash"></i>
                       </span>

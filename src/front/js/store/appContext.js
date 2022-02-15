@@ -34,7 +34,7 @@ const injectContext = (PassedComponent) => {
       state.actions.loadCharacters();
       state.actions.loadPlanets();
       state.actions.loadFavorites();
-      state.actions.syncTokenFromSessionStore();
+      state.actions.getCurrentSession();
     }, []);
 
     // The initial value for the context is not null anymore, but the current state of this component,

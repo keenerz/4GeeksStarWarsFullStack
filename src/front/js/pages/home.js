@@ -6,11 +6,11 @@ import { Context } from "/workspace/react-flask-hello/src/front/js/store/appCont
 
 export const Home = (props) => {
   const { store, actions } = useContext(Context);
-
+  console.log("before use effect" + store.session);
   useEffect(() => {
-    if (store.token && store.token != "" && store.token != undefined)
+    if (store.session && store.session != "" && store.session != undefined)
       actions.loadFavorites();
-  }, [store.token]);
+  }, [store.session]);
 
   return (
     <div className="container-fluid p-0 pb-4 m-0">
