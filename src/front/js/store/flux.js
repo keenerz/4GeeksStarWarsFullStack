@@ -17,7 +17,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       // },
       getCurrentSession: () => {
         const session = JSON.parse(localStorage.getItem("session"));
-        console.log("get session" + JSON.stringify(session));
         return session;
       },
       logout: () => {
@@ -46,6 +45,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (response.status !== 200) {
           alert("Error in first");
         }
+        actions.loadFavorites();
       },
       addPlanetFavorites: async (favorite) => {
         const actions = getActions();
@@ -69,23 +69,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (response.status !== 200) {
           alert("Error in first");
         }
+        actions.loadFavorites();
       },
-      // removeFavorites: (i) => {
-      //   const { favorites } = getStore();
-      //   let newFavorites = favorites.map((item, index) => {
-      //     if (index === i) {
-      //       item["isFavorite"] = false;
-      //       return item;
-      //     } else {
-      //       return item;
-      //     }
-      //   });
-      //   setStore({
-      //     favorites: newFavorites.filter(
-      //       (f, indexToDelete) => indexToDelete !== i
-      //     ),
-      //   });
-      // },
       loadCharacters: async () => {
         const response = await fetch(
           process.env.BACKEND_URL + `/api/character`
@@ -128,6 +113,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (response.status === 200) {
           const payload = await response.json();
           setStore({ favorites: payload });
+          console.log("favorites payload" + JSON.stringify(payload));
         }
       },
       login: async (email, password) => {
@@ -177,6 +163,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (response.status !== 200) {
           alert("Error in first");
         }
+        actions.loadCharacters();
       },
       deletePlanet: async (planet) => {
         const actions = getActions();
@@ -195,6 +182,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (response.status !== 200) {
           alert("Error in first");
         }
+        actions.loadPlanets();
       },
       createUser: async (email, password, gender) => {
         const options = {
@@ -217,27 +205,51 @@ const getState = ({ getStore, getActions, setStore }) => {
           alert("Incorrect Email or Password");
         }
       },
-      removeFavorite: async (favorites) => {
+      removeFavorite: async (favorite) => {
         const actions = getActions();
         const session = actions.getCurrentSession();
-        console.log(favorites);
-        const options = {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + session.token,
-          },
-          body: JSON.stringify({
-            id: favorites,
-          }),
-        };
-        const response = await fetch(
-          process.env.BACKEND_URL + `/api/favorite`,
-          options
-        );
-        if (response.status !== 200) {
-          alert("Error in response");
+        if (favorite.planet == null) {
+          const options = {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + session.token,
+            },
+            body: JSON.stringify({
+              user: session.user_id,
+              character_id: favorite.character.id,
+              planet_id: null,
+            }),
+          };
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/favorite`,
+            options
+          );
+          if (response.status !== 200) {
+            alert("Error in response");
+          }
+        } else {
+          const options = {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + session.token,
+            },
+            body: JSON.stringify({
+              user: session.user_id,
+              character_id: null,
+              planet_id: favorite.planet.id,
+            }),
+          };
+          const response = await fetch(
+            process.env.BACKEND_URL + `/api/favorite`,
+            options
+          );
+          if (response.status !== 200) {
+            alert("Error in response");
+          }
         }
+        actions.loadFavorites();
       },
     },
   };

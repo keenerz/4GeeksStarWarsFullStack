@@ -25,7 +25,9 @@ export const PlanetCards = (props) => {
         </Link>
         <button
           className="btn btn-outline-danger float-end favorites ms-1"
-          onClick={() => actions.deletePlanet(props.data)}
+          onClick={() => {
+            actions.deletePlanet(props.data);
+          }}
         >
           <i className="fas fa-trash"></i>
         </button>

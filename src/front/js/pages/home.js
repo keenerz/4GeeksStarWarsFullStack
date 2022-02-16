@@ -6,7 +6,6 @@ import { Context } from "/workspace/react-flask-hello/src/front/js/store/appCont
 
 export const Home = (props) => {
   const { store, actions } = useContext(Context);
-  console.log("before use effect" + store.session);
   useEffect(() => {
     if (store.session && store.session != "" && store.session != undefined)
       actions.loadFavorites();

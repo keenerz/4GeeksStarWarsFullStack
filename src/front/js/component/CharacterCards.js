@@ -27,13 +27,17 @@ export const CharacterCards = (props) => {
         </Link>
         <button
           className="btn btn-outline-danger float-end favorites ms-1"
-          onClick={() => actions.deleteCharacter(props.data)}
+          onClick={() => {
+            actions.deleteCharacter(props.data);
+          }}
         >
           <i className="fas fa-trash"></i>
         </button>
         <button
           className="btn btn-outline-warning float-end favorites"
-          onClick={() => actions.addCharacterFavorites(props.data)}
+          onClick={() => {
+            actions.addCharacterFavorites(props.data);
+          }}
         >
           {props.favStatus === true ? (
             <i className="fas fa-heart"></i>

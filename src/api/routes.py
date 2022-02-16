@@ -70,8 +70,10 @@ def add_favorite():
 def delete_favorite():
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
-    favorite_id = request.json.get('id')
-    target_favorite = Favorite.query.filter_by(user_id=user.id, id=favorite_id).first()
+    user_id = request.json.get('user')
+    character_id_get = request.json.get('character_id')
+    planet_id_get = request.json.get('planet_id')
+    target_favorite = Favorite.query.filter_by(user_id=user_id, planets_id=planet_id_get, character_id=character_id_get).first()
     if target_favorite is None: 
         return jsonify({"msg": "Invalid favorite"}), 400
     db.session.delete(target_favorite)

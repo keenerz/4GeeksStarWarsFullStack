@@ -63,7 +63,9 @@ export const Navbar = (props) => {
                       </Link>{" "}
                       <span
                         className="favoriteDelete"
-                        onClick={() => actions.removeFavorite(i)}
+                        onClick={() => {
+                          actions.removeFavorite(f);
+                        }}
                       >
                         <i className="fas fa-trash"></i>
                       </span>
