@@ -6,22 +6,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       planets: [],
     },
     actions: {
-      // Use getActions to call a function within a fuction
-      // exampleFunction: () => {
-      //   getActions().changeColor(0, "green");
-      // },
-      // loadSomeData: () => {
-      //   /*
-      //       fetch().then().then(data => setStore({ "foo": data.bar }))
-      //     */
-      // },
       getCurrentSession: () => {
         const session = JSON.parse(localStorage.getItem("session"));
         return session;
       },
       logout: () => {
+        const actions = getActions();
         localStorage.removeItem("session");
         setStore({ session: null });
+        setStore({ favorites: [] });
       },
       addCharacterFavorites: async (favorite) => {
         const actions = getActions();
@@ -42,9 +35,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           process.env.BACKEND_URL + `/api/favorite`,
           options
         );
-        if (response.status !== 200) {
-          alert("Error in first");
-        }
         actions.loadFavorites();
       },
       addPlanetFavorites: async (favorite) => {
@@ -66,9 +56,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           process.env.BACKEND_URL + `/api/favorite`,
           options
         );
-        if (response.status !== 200) {
-          alert("Error in first");
-        }
         actions.loadFavorites();
       },
       loadCharacters: async () => {
@@ -113,7 +100,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (response.status === 200) {
           const payload = await response.json();
           setStore({ favorites: payload });
-          console.log("favorites payload" + JSON.stringify(payload));
         }
       },
       login: async (email, password) => {
@@ -250,6 +236,84 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
         }
         actions.loadFavorites();
+      },
+      addPlanet: async (
+        name,
+        climate,
+        rotationPeriod,
+        orbitalPeriod,
+        diameter,
+        terrain,
+        population,
+        imgUrl
+      ) => {
+        const actions = getActions();
+        const session = actions.getCurrentSession();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + session.token,
+          },
+          body: JSON.stringify({
+            name: name,
+            climate: climate,
+            rotation_period: rotationPeriod,
+            orbital_period: orbitalPeriod,
+            diameter: diameter,
+            terrain: terrain,
+            population: population,
+            img_url: imgUrl,
+          }),
+        };
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/planet`,
+          options
+        );
+        if (response.status === 200) {
+          const payload = await response.json();
+          console.log("planet created successfully!");
+          return payload;
+        }
+      },
+      addCharacter: async (
+        name,
+        height,
+        hairColor,
+        eyeColor,
+        skinColor,
+        birthYear,
+        gender,
+        imgUrl
+      ) => {
+        const actions = getActions();
+        const session = actions.getCurrentSession();
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + session.token,
+          },
+          body: JSON.stringify({
+            name: name,
+            height: height,
+            hair_color: hairColor,
+            eye_color: eyeColor,
+            birth_year: birthYear,
+            gender: gender,
+            img_url: imgUrl,
+            skin_color: skinColor,
+          }),
+        };
+        const response = await fetch(
+          process.env.BACKEND_URL + `/api/character`,
+          options
+        );
+        if (response.status === 200) {
+          const payload = await response.json();
+          console.log("planet created successfully!");
+          return payload;
+        }
       },
     },
   };

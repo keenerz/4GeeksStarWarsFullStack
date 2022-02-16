@@ -20,7 +20,7 @@ export const Navbar = (props) => {
       <div id="logbutton">
         {!session ? (
           <Link to="/login">
-            <button className="btn btn-primary">Log me in!</button>
+            <button className="btn btn-primary">Login / Create User</button>
           </Link>
         ) : (
           <button

@@ -61,9 +61,14 @@ def add_favorite():
     if user is None:
         return jsonify({"msg": "User Not Found"}), 403
     favorite = Favorite(user_id = user.id, character_id = character_id, planets_id = planets_id)
-    db.session.add(favorite)
-    db.session.commit()
-    return jsonify(favorite.serialize())
+    duplicate = Favorite.query.filter_by(user_id=user_id,planets_id=planets_id,character_id=character_id).first()
+    if duplicate is None:
+        db.session.add(favorite)
+        db.session.commit()
+        return jsonify(favorite.serialize())
+    else:
+        return jsonify({"msg": "Duplicate"}), 400
+    
 
 @api.route('/favorite', methods=['DELETE'])
 @jwt_required()
@@ -111,3 +116,52 @@ def delete_planet(planet_id):
     db.session.delete(target_planet)
     db.session.commit()
     return jsonify({ "msg": "Planet Deleted"}), 200
+
+@api.route('/planet', methods=['POST'])
+@jwt_required()
+def create_planet():
+    name = request.json.get('name', None)
+    climate = request.json.get('climate', None)
+    rotation_period = request.json.get('rotation_period', None)
+    orbital_period = request.json.get('orbital_period', None)
+    diameter = request.json.get('diameter', None)
+    terrain = request.json.get('terrain', None)
+    population = request.json.get('population', None)
+    img_url = request.json.get('img_url', None)
+    
+    planet = Planet(name=name,
+                    climate=climate,
+                    rotation_period=rotation_period,
+                    orbital_period=orbital_period,
+                    diameter=diameter,
+                    terrain=terrain,
+                    population=population, 
+                    img_url=img_url)
+    db.session.add(planet)
+    db.session.commit()
+    return jsonify(planet.serialize())
+
+@api.route('/character', methods=['POST'])
+@jwt_required()
+def create_character():
+    name = request.json.get('name', None)
+    height = request.json.get('height', None)
+    hair_color = request.json.get('hair_color', None)
+    eye_color = request.json.get('eye_color', None)
+    birth_year = request.json.get('birth_year', None)
+    gender = request.json.get('gender', None)
+    img_url = request.json.get('img_url', None)
+    skin_color = request.json.get('skin_color', None)
+    
+    character = Character(name=name,
+                    height=height,
+                    hair_color=hair_color,
+                    eye_color=eye_color,
+                    birth_year=birth_year,
+                    gender=gender,
+                    img_url=img_url, 
+                    skin_color=skin_color
+                    )
+    db.session.add(character)
+    db.session.commit()
+    return jsonify(character.serialize())

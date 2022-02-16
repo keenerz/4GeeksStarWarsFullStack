@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "/workspace/react-flask-hello/src/front/styles/home.css";
 import { PlanetCards } from "/workspace/react-flask-hello/src/front/js/component/PlanetCards.js";
 import { CharacterCards } from "/workspace/react-flask-hello/src/front/js/component/CharacterCards.js";
@@ -13,7 +14,14 @@ export const Home = (props) => {
 
   return (
     <div className="container-fluid p-0 pb-4 m-0">
-      <h1 className="mx-0 px-4 pb-2 pt-4 headers">Characters</h1>
+      <div>
+        <h1 className="mx-0 px-4 pb-2 pt-4 headers float-start">Characters</h1>{" "}
+        <Link to="/characteradd">
+          <button className="btn btn-outline-primary float-end mx-0 mx-4 mb-2 mt-4">
+            Add Characters
+          </button>
+        </Link>
+      </div>
       <div
         className="d-flex flex-row mx-auto"
         style={{ width: "90%", overflow: "auto" }}
@@ -33,7 +41,14 @@ export const Home = (props) => {
           />
         ))}
       </div>
-      <h1 className="mx-0 px-4 pb-2 pt-4 headers">Planets</h1>
+      <div>
+        <h1 className="mx-0 px-4 pb-2 pt-4 headers float-start">Planets</h1>{" "}
+        <Link to="/planetadd">
+          <button className="btn btn-outline-primary float-end mx-0 mx-4 mb-2 mt-4">
+            Add Planets
+          </button>
+        </Link>
+      </div>
       <div
         className="d-flex flex-row mx-auto mb-4"
         style={{ width: "90%", overflow: "auto" }}

@@ -7,6 +7,9 @@ import { PlanetDetails } from "/workspace/react-flask-hello/src/front/js/pages/P
 import { CharacterDetails } from "/workspace/react-flask-hello/src/front/js/pages/CharacterDetails.js";
 import { Login } from "/workspace/react-flask-hello/src/front/js/pages/login.js";
 import { CreateUser } from "/workspace/react-flask-hello/src/front/js/pages/newuser.js";
+import { CreatePlanet } from "./pages/PlanetAdd";
+import { CreateCharacter } from "./pages/CharacterAdd";
+
 import injectContext from "/workspace/react-flask-hello/src/front/js/store/appContext.js";
 
 import { Navbar } from "/workspace/react-flask-hello/src/front/js/component/navbar.js";
@@ -40,6 +43,12 @@ const Layout = () => {
             </Route>
             <Route exact path="/newuser">
               <CreateUser />
+            </Route>
+            <Route exact path="/planetadd">
+              <CreatePlanet />
+            </Route>
+            <Route exact path="/characteradd">
+              <CreateCharacter />
             </Route>
             <Route>
               <h1>Not found!</h1>
