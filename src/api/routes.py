@@ -165,3 +165,129 @@ def create_character():
     db.session.add(character)
     db.session.commit()
     return jsonify(character.serialize())
+
+@api.route('/planet', methods=['PUT'])
+def update_planet():
+    planet_id = request.json.get('id')
+    planet = Planet.query.filter_by(id=planet_id).first()
+    if planet is None:
+        return jsonify({"msg":"Planet doesn't exist"}), 400
+    name = request.json.get('name')
+    climate = request.json.get('climate')
+    rotation_period = request.json.get('rotation_period')
+    orbital_period = request.json.get('orbital_period')
+    diameter = request.json.get('diameter')
+    terrain = request.json.get('terrain')
+    population = request.json.get('population')
+    img_url = request.json.get('img_url')
+
+    if name is None:
+        planet.name = planet.name
+    else:
+        planet.name = name
+
+    if climate is None:
+        planet.climate = planet.climate
+    else:
+        planet.climate = climate
+
+    if rotation_period is None:
+        planet.rotation_period = planet.rotation_period
+    else:
+        planet.rotation_period = rotation_period
+    
+    if orbital_period is None:
+        planet.orbital_period = planet.orbital_period
+    else:
+        planet.orbital_period = orbital_period
+    
+    if diameter is None:
+        planet.diameter = planet.diameter
+    else:
+        planet.diameter = diameter
+
+    if terrain is None:
+        planet.terrain = planet.terrain
+    else:
+        planet.terrain = terrain
+
+    if population is None:
+        planet.population = planet.population
+    else:
+        planet.population = population
+    
+    if img_url is None:
+        planet.img_url = planet.img_url
+    else:
+        planet.img_url = img_url
+
+    # planet.name = request.json.get('name')
+    # planet.climate = request.json.get('climate')
+    # planet.rotation_period = request.json.get('rotation_period')
+    # planet.orbital_period = request.json.get('orbital_period')
+    # planet.diameter = request.json.get('diameter')
+    # planet.terrain = request.json.get('terrain')
+    # planet.population = request.json.get('population')
+    # planet.img_url = request.json.get('img_url')
+    
+    db.session.commit()
+    return jsonify(planet.serialize())
+
+@api.route('/character', methods=['PUT'])
+def update_character():
+    character_id = request.json.get('id')
+    character = Character.query.filter_by(id=character_id).first()
+    if character is None:
+        return jsonify({"msg":"Character doesn't exist"}), 400
+
+    name = request.json.get('name')
+    height = request.json.get('height')
+    hair_color = request.json.get('hair_color')
+    eye_color = request.json.get('eye_color')
+    birth_year = request.json.get('birth_year')
+    gender = request.json.get('gender')
+    skin_color = request.json.get('skin_color')
+    img_url = request.json.get('img_url')
+
+    if name is None:
+        character.name = character.name
+    else:
+        character.name = name
+
+    if height is None:
+        character.height = character.height
+    else:
+        character.height = height
+
+    if hair_color is None:
+        character.hair_color = character.hair_color
+    else:
+        character.hair_color = hair_color
+    
+    if eye_color is None:
+        character.eye_color = character.eye_color
+    else:
+        character.eye_color = eye_color
+    
+    if birth_year is None:
+        character.birth_year = character.birth_year
+    else:
+        character.birth_year = birth_year
+
+    if gender is None:
+        character.gender = character.gender
+    else:
+        character.gender = gender
+
+    if skin_color is None:
+        character.skin_color = character.skin_color
+    else:
+        character.skin_color = skin_color
+    
+    if img_url is None:
+        character.img_url = character.img_url
+    else:
+        character.img_url = img_url
+
+    db.session.commit()
+    return jsonify(character.serialize())
